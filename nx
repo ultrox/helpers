@@ -1,0 +1,41 @@
+#!/bin/sh
+if [ $# -eq 0 ]; then
+  #stuff
+  echo 'restart | test | reload'
+fi
+
+if [ $# -gt 0 ];then
+  if [ "$1" == "restart" ]; then
+    shift 1
+    # build stuff
+    launchctl stop nginx &&
+      launchctl start nginx 
+    echo ">> Restared"
+    nginx -t
+  elif [ "$1" == 'test' ]; then
+    shift 1
+    #build stuff
+    nginx -t
+  elif [ "$1" == 'watching' ]; then
+    shift 1
+    #build stuff
+    while inotifywait -e close_write myfile.py; do ./myfile.py; done
+    ## or this
+    inotifywait -q -m -e close_write myfile.py |
+    while read -r filename event; do
+      ./myfile.py         # or "./$filename"
+    done
+  elif [ "$1" == 'status' ]; then
+    shift 1
+    #build stuff
+    launchctl list | grep nginx
+  elif [ "$1" == "reload" ]; then 
+    shift 1
+    if [[ $# -eq 0 ]]; then 
+      echo You are missing the db name!
+      exit 1
+    fi
+    echo 'Can you see me?'
+    /Applications/XAMPP/xamppfiles/bin/mysqldump -u root -p $1 > ./$NAME
+  fi
+fi

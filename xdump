@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ $# -gt 0 ];then
+  if [ "$1" == "replace" ]; then
+    shift 1
+    # build stuff
+    sed -i '' "s/$1/$2/g" $3
+  elif [ "$1" == 'feed' ]; then
+    shift 1
+    #build stuff
+    /Applications/XAMPP/xamppfiles/bin/mysql -u root -p $1 < $2
+  elif [ "$1" == "dump" ]; then 
+    shift 1
+    NAME=$1.sql;
+    FILE=$(pwd)/$1.sql
+
+    if [ -f $FILE ] ; then
+      NEW_FILE_NAME="$1`date +"%s"`.sql"
+      NAME=$NEW_FILE_NAME
+      echo ">>> renaming to $NEW_FILE_NAME"
+    fi
+
+    if [[ $# -eq 0 ]]; then 
+      echo You are missing the db name!
+      exit 1
+    fi
+
+    echo 'Can you see me?'
+    /Applications/XAMPP/xamppfiles/bin/mysqldump -u root -p $1 > ./$NAME
+  fi
+fi
