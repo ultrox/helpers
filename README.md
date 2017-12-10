@@ -8,3 +8,8 @@ Basch script to help deal with nginx on different systems
 # xdump 
 
 Export and replace thing in sql db
+
+### exclude-direcotry-git
+
+Using sparse checkout pull everything but folders with "!unwanted", very handy
+for when you have dev stuff you don't want to deploy
