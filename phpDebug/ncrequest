@@ -1,0 +1,1 @@
+curl -s -o /dev/null -w "%{time_total}\n" -H "Pragma: no-cache" $1
